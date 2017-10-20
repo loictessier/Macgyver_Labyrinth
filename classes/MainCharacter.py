@@ -17,14 +17,14 @@ class MainCharacter:
 		self.inventory = []
 
 	def move(self, direction):
-		if direction == "top":
-			self.pos_y -= 1
-		elif direction == "bottom":
-			self.pos_y += 1
+		if direction == "up":
+			self.position_y -= 1
+		elif direction == "down":
+			self.position_y += 1
 		elif direction == "right":
-			self.pos_x += 1
+			self.position_x += 1
 		elif direction == "left":
-			self.pos_x -= 1
+			self.position_x -= 1
 		else:
 			log.debug("Error: can't move character - direction non recognized")
 

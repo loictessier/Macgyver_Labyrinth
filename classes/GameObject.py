@@ -6,9 +6,12 @@ class GameObject:
 		self.visible = none
 		self.can_be_crossed = none
 		self.can_be_picked_up = none
+		#add text_display properties
 
 	def __repr__(self):
 		return self.name
+
+
 
 class Wall(GameObject):
 
