@@ -23,10 +23,12 @@ class Board:
         "l": "Loot"
     }
 
+    LOOT_NAMES = ["Needle", "Plastic tube", "Ether flask"]
+
     def __init__(self, filename):
+        self.path_counter = 0
         self.board_map = [[0 for y in range(self.WIDTH_BOARD)] for x in range(self.HEIGHT_BOARD)]
         self.create_board_map_from_file(filename)
-        # counter path
 
     def create_board_map_from_file(self, filename):
         directory = path.dirname(path.dirname(__file__))  # we get the right path
@@ -45,41 +47,35 @@ class Board:
 
         # Add 3 loots type objects at randoms positions
         for it in range(3):
+            path_rand = random.randint(0, self.path_counter)
 
-            randseed = 0
-            for row in self.board_map:
-                randseed += sum(isinstance(cell, go.Path) for cell in row)
-
-            path_counter = random.randint(0, randseed)  # then select a random counter among these positions
-
-            # then convert the relative position (the nth path) into a general position (the nth positions on the map)
+            # convert the relative position (the nth path) into a general position (the nth positions on the map)
             loot_pos = 0
             for row in self.board_map:
                 for item in row:
-                    if path_counter > 0:
-                        if type(item) == go.Path:
-                            path_counter -= 1
+                    if path_rand > 0:
+                        if item.name == "Path":
+                            path_rand -= 1
                         loot_pos += 1
 
             # create a loot object at the position randomly generated
-            self.board_map[loot_pos // 15][(loot_pos % 15) - 1] = self.create_object(self.OBJECTS_TYPES["l"])
+            self.board_map[loot_pos // 15][(loot_pos % 15) - 1] = self.create_object(self.OBJECTS_TYPES["l"], self.LOOT_NAMES[it])
 
-    @staticmethod  # pas statique
-    def create_object(type_object):
+    def create_object(self, type_object, loot_name=None):
         if type_object == "Wall":
-            return go.Wall()
+            return go.create_wall()
         elif type_object == "Path":
-            # increment counter path
-            return go.Path()
-        elif type_object == "StartPoint":
-            return go.StartPoint()
-        elif type_object == "EndPoint":
-            return go.EndPoint()
-        elif type_object == "Guard":
-            return go.Guard()
+            self.path_counter += 1
+            return go.create_path()
         elif type_object == "Loot":
-            # decrement path
-            return go.Loot()
+            self.path_counter -= 1
+            return go.create_loot(loot_name)
+        elif type_object == "StartPoint":
+            return go.create_startpoint()
+        elif type_object == "EndPoint":
+            return go.create_endpoint()
+        elif type_object == "Guard":
+            return go.create_guard()
         else:
             log.critical('Error : object type non recognized')
 
@@ -89,25 +85,23 @@ class Board:
     def replace_picked_up_object(self, pos_x, pos_y):
         self.board_map[pos_x][pos_y] = self.create_object("Path")
 
+    def get_startpoint_coordinates(self):
+        i, j = 0, 0
+        for row in self.board_map:
+            for col in row:
+                if col.name == "StartPoint":
+                    return i, j
+                j += 1
+            i += 1
+            j = 0
+
 
 # Test
 def main():
-    my_test_board = Board()
-    my_test_board.create_board_map_from_file("level1.map")
-    print(my_test_board.board_map)
+    my_test_board = Board("level1.map")
     for row in my_test_board.board_map:
-        string = ""
         for col in row:
-            if type(col) == go.Wall:
-                string += "X"
-            elif type(col) == go.Loot:
-                string += "O"
-            elif type(col) == go.Guard:
-                string += "G"
-            else:
-                string += " "
-        print(string)
-    # print("number of loots : {}.".format(sum(row.count('l') for row in my_test_board.board_map)))
+            print(col)
 
 if __name__ == "__main__":
     main()

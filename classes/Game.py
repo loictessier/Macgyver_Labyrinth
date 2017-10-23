@@ -16,8 +16,9 @@ class Game:
     """
 
     def __init__(self):
-        self.main_character = mc.MainCharacter(1, 8)
         self.board = bo.Board("level1.map")
+        pos_x, pos_y = self.board.get_startpoint_coordinates()
+        self.main_character = mc.MainCharacter(pos_x, pos_y)
 
     def move_main_character(self, direction):
         # verify destination valid

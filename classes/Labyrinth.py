@@ -2,10 +2,10 @@
 # coding: utf-8
 import logging as log
 import Game as ga
-import GameObject as go
 
 # log.basicConfig(level=log.DEBUG)
 log.basicConfig(level=log.CRITICAL)
+
 
 class Labyrinth:
     """Class which represents the starting point of the program:
@@ -13,10 +13,10 @@ class Labyrinth:
         - handle player inputs and gui"""
 
     TYPE_SCREEN = {
-        "OK":"Game continue",
-        "LOSE":"Game over",
-        "WIN":"Level completed",
-        "QUIT":"Quit game"
+        "OK": "Game continue",
+        "LOSE": "Game over",
+        "WIN": "Level completed",
+        "QUIT": "Quit game"
     }
 
     def __init__(self):
@@ -44,31 +44,18 @@ class Labyrinth:
             else:
                 log.debug('Error : user input invalid')
 
-
-        # handle return : back to listen, win screen or gameover screen
-        pass
-
     def display_screen(self, type_screen):
         if type_screen == "Game continue":
             # get the level composition
             screen_list = []
             for row in self.game.board.board_map:
-                string = ""
-                for col in row:
-                    if type(col) == go.Wall:
-                        string += "#"
-                    elif type(col) == go.Loot:
-                        string += "O"
-                    elif type(col) == go.Guard:
-                        string += "G"
-                    else:
-                        string += " "
-                screen_list.append(string)
+                screen_list.append("".join(col.representation for col in row))
 
             # update with main character position
-            screen_list[self.game.main_character.position_x] = (screen_list[self.game.main_character.position_x][0:self.game.main_character.position_y]
-            + "M"
-            + screen_list[self.game.main_character.position_x][self.game.main_character.position_y+1:])
+            screen_list[self.game.main_char_pos_x] = (
+                screen_list[self.game.main_char_pos_x][0:self.game.main_char_pos_y]
+                + "M"
+                + screen_list[self.game.main_char_pos_x][self.game.main_char_pos_y+1:])
 
             # print result
             for row in screen_list:
@@ -115,6 +102,7 @@ class Labyrinth:
 
         else:
             log.critical('Error : screen type non recognized')
+
 
 def main():
     lab = Labyrinth()
