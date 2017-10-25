@@ -1,7 +1,7 @@
 from os import path
 import random
 import logging as log
-import GameObject as go
+from . import GameObject as go
 
 # log.basicConfig(level=log.DEBUG)
 log.basicConfig(level=log.CRITICAL)
