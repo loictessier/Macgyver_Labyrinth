@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # coding: utf-8
-import MainCharacter as mc
-import Board as bo
+from . import MainCharacter as mc
+from . import Board as bo
 import logging as log
 
 # log.basicConfig(level=log.DEBUG)
@@ -46,6 +46,10 @@ class Game:
     @property
     def main_char_pos_y(self):
         return self.main_character.position_y
+
+    @property
+    def loot_names_list(self):
+        return self.board.LOOT_NAMES
 
     def calculate_move(self, pos_x, pos_y, direction):
         if direction == "up":
