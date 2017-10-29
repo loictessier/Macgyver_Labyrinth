@@ -1,3 +1,12 @@
+#! /usr/bin/env python3
+# coding: utf-8
+
+"""This file contains the class Board which is used to contains all the
+    elements which composes the level of the game and the methods to
+    manipulates these elements.
+"""
+
+
 from os import path
 import random
 import logging as log
@@ -28,9 +37,15 @@ class Board:
     def __init__(self, filename):
         self.path_counter = 0
         self.board_map = [[0 for y in range(self.WIDTH_BOARD)] for x in range(self.HEIGHT_BOARD)]
-        self.create_board_map_from_file(filename)
+        self._create_board_map_from_file(filename)
 
-    def create_board_map_from_file(self, filename):
+    def _create_board_map_from_file(self, filename):
+        """This methods generates all the objects of the level 
+            except the main character. It reads a file to set all 
+            the walls, paths, ending and starting point and the 
+            position of the guard. Then it places the loot objects
+            at random positions among the paths objects.
+        """
         directory = path.dirname(path.dirname(__file__))  # we get the right path
         path_to_file = path.join(directory, "maps", filename)  # we go inside folder "maps" and get the file
 
@@ -40,7 +55,7 @@ class Board:
             with open(path_to_file, "r") as f:
                 for line in f:
                     for col in range(self.WIDTH_BOARD):
-                        self.board_map[row][col] = self.create_object(self.OBJECTS_TYPES[line[col]])
+                        self.board_map[row][col] = self._create_object(self.OBJECTS_TYPES[line[col]])
                     row += 1
         except FileNotFoundError as e:
             log.critical('Error: {}'.format(e))
@@ -59,9 +74,13 @@ class Board:
                         loot_pos += 1
 
             # create a loot object at the position randomly generated
-            self.board_map[loot_pos // 15][(loot_pos % 15) - 1] = self.create_object(self.OBJECTS_TYPES["l"], self.LOOT_NAMES[it])
+            self.board_map[loot_pos // 15][(loot_pos % 15) - 1] = self._create_object(self.OBJECTS_TYPES["l"], self.LOOT_NAMES[it])
 
-    def create_object(self, type_object, loot_name=None):
+    def _create_object(self, type_object, loot_name=None):
+        """This method is used to create all objects that 
+            we need when we generate the level map list and 
+            when we manipulate it.
+        """
         if type_object == "Wall":
             return go.create_wall()
         elif type_object == "Path":
@@ -80,12 +99,22 @@ class Board:
             log.critical('Error : object type non recognized')
 
     def get_object_by_coordinates(self, pos_x, pos_y):
+        """Returns an objectscorresponding to
+            the coordinates passed in parameters.
+        """
         return self.board_map[pos_x][pos_y]
 
     def replace_picked_up_object(self, pos_x, pos_y):
-        self.board_map[pos_x][pos_y] = self.create_object("Path")
+        """When a object is picked up we call this
+            with the coordinates of the objects. This
+            methods replaces it with a new "Path" object.
+        """
+        self.board_map[pos_x][pos_y] = self._create_object("Path")
 
     def get_startpoint_coordinates(self):
+        """Get the coordinate with the coordinates
+            of the unique "StartPoint" object of the level.
+        """
         i, j = 0, 0
         for row in self.board_map:
             for col in row:

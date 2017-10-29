@@ -1,5 +1,17 @@
+#! /usr/bin/env python3
+# coding: utf-8
+
+"""This file contains the class GameObject which represents
+    the model of the objects that compose the level. It contains
+    also the 'Factory' fonctions that are used to generates the
+    differents types of objects.
+"""
+
+
 class GameObject:
-    """
+    """This class represent the model of a game objects:
+        - gameobjects general properties
+        - implementaion of __repr__ method to print the name of the objects (mainly for debug and tests)
     """
 
     def __init__(self, name, visible, can_be_crossed, can_be_picked_up, is_end_point, representation):
