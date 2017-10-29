@@ -1,3 +1,10 @@
+#! /usr/bin/env python3
+# coding: utf-8
+
+"""This file contains the class with the properties of the main character
+"""
+
+
 import logging as log
 
 # log.basicConfig(level=log.DEBUG)
@@ -18,10 +25,14 @@ class MainCharacter:
         self.inventory = []
 
     def move(self, dest_x, dest_y):
+        """Method used to move the main character
+        """
         self.position_x = dest_x
         self.position_y = dest_y
 
     def add_item(self, item):
+        """Method used to add an item to the inventory of the main character
+        """
         self.inventory.append(item)
 
 
