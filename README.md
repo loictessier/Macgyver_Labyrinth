@@ -34,7 +34,7 @@ Run Labyrinth_text.py instead if you want console mode.
 
 ### How to play
 
-Use arrow to move MacGyver's accross the labyrinth. pick up object by walking on them. If you have all 3 items when you meet the guard u complete the level. Press 'Esc' if you want to end the game at anytime.
+Use arrow to move MacGyver's accross the labyrinth. pick up object by walking on them. If you have all 3 items when you meet the guard you complete the level. Press 'Esc' if you want to end the game at anytime.
 
 ## Packages used 
 
