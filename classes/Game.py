@@ -45,10 +45,6 @@ class Game:
             print("Can't walk there")
             return "OK"
 
-        # => if no valid print(warning) return OK
-        # => if yes valid call mainchar.move
-        #        post movement action
-
     @property
     def main_char_pos_x(self):
         return self.main_character.position_x

@@ -40,9 +40,9 @@ class Board:
         self._create_board_map_from_file(filename)
 
     def _create_board_map_from_file(self, filename):
-        """This methods generates all the objects of the level 
-            except the main character. It reads a file to set all 
-            the walls, paths, ending and starting point and the 
+        """This methods generates all the objects of the level
+            except the main character. It reads a file to set all
+            the walls, paths, ending and starting point and the
             position of the guard. Then it places the loot objects
             at random positions among the paths objects.
         """
@@ -77,8 +77,8 @@ class Board:
             self.board_map[loot_pos // 15][(loot_pos % 15) - 1] = self._create_object(self.OBJECTS_TYPES["l"], self.LOOT_NAMES[it])
 
     def _create_object(self, type_object, loot_name=None):
-        """This method is used to create all objects that 
-            we need when we generate the level map list and 
+        """This method is used to create all objects that
+            we need when we generate the level map list and
             when we manipulate it.
         """
         if type_object == "Wall":
